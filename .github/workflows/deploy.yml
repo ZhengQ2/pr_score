@@ -1,0 +1,38 @@
+name: Deploy site
+
+# Publishes dist/ to https://pr.zhengqiu.net after changes land on main (including merged draw refreshes).
+# Disabled until the repository variable AWS_DEPLOY_ROLE_ARN is set to the role from infra/github-deploy-role.yaml.
+on:
+  push:
+    branches: [main]
+    paths: ['dist/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: vars.AWS_DEPLOY_ROLE_ARN != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-1
+
+      # Files only: infrastructure changes still go through scripts/deploy.sh with full credentials.
+      - name: Test, upload and invalidate
+        run: SKIP_STACK=1 ./scripts/deploy.sh

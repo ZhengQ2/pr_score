@@ -1,1 +1,111 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Explore your Canadian Express Entry CRS score and screen CEC, FSW and skilled trades eligibility."><title>PR Score · Express Entry</title><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231c463a'/%3E%3Cpath d='M8 23V9h8a5 5 0 0 1 0 10h-4v4m0-10v2h4a1 1 0 0 0 0-2z' fill='%23d7ef8b'/%3E%3C/svg%3E"><link rel="stylesheet" href="styles.css"></head><body><header><a class="brand" href="#"><span class="mark">P</span> PR Score</a><span class="header-note">IMMIGRATION POINTS EXPLORER</span><a href="#sources">Official sources ↗</a></header><main><div class="intro"><div><div class="eyebrow">CANADA / EXPRESS ENTRY</div><h1>See where you stand.</h1><p>Adjust your profile. Explore your points and possible pathways.</p></div><span class="version">2026 rules · Live calculation</span></div><div class="layout"><div class="workspace"><nav aria-label="Calculator sections"><a href="#profile">01 Profile</a><a href="#languages">02 Languages</a><a href="#experience">03 Experience</a><a href="#pathways">04 Pathways</a></nav><form id="profile-form"><section id="profile"><div class="section-title"><span class="number">01</span><h2>Your profile</h2></div><div id="basic-fields" class="fields"><label>Age<input type="number" value="29" min="0" max="100"></label><label>Spouse or partner<select><option>No accompanying spouse</option></select></label><label class="wide">Highest education<select><option>Bachelor’s degree / three-year program</option></select></label></div></section><section id="languages"><div class="section-title"><span class="number">02</span><h2>Language proficiency</h2></div><p>English and French are scored separately. Your strongest scoring combination becomes your first official language.</p><div id="language-fields"></div></section><div id="remaining-fields"></div></form><section id="pathways"><div class="section-title"><span class="number">04</span><h2>Your possible pathways</h2></div><p>Complete the eligibility questions to check program requirements separately from your CRS score.</p><div id="pathway-results"></div></section><footer id="sources"><h3>Grounded in the official criteria</h3><div id="source-links"></div><p>Independent planning tool, not an IRCC decision. Eligibility screening is based on your answers; meeting program requirements does not guarantee an invitation. Your inputs stay in this page and are not saved. Occupation data: Statistics Canada, NOC 2021 Version 1.0, used under the Statistics Canada Open Licence. This tool is not endorsed by Statistics Canada.</p></footer></div><aside><div class="score-card"><div class="score-top">YOUR ESTIMATED CRS <span>LIVE</span></div><div class="score-value"><output id="total">230</output><span>/ 1,200</span></div><p id="language-choice">Add test results to calculate language points.</p><div class="score-track" id="score-track"></div><div id="breakdown"><div class="break-row"><span>Core / human capital</span><b>230</b></div></div><div class="score-foot">Every change updates your score instantly.</div></div><div class="note"><h3>A score is only half the picture.</h3><p>CRS ranks your profile. Program eligibility determines whether you can enter the Express Entry pool.</p><a href="#pathways">Check your pathways ↓</a></div><div class="rules-note">Job offers no longer add CRS points. They can still affect program eligibility.</div></aside></div></main><script type="module" src="app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Estimate your Express Entry CRS and provincial nominee program scores (Ontario, B.C., Alberta, Saskatchewan, Manitoba, PEI) and screen eligibility.">
+  <title>PR Score · Canadian PR score calculators</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23a53d36'/%3E%3Cpath d='M8 23V9h8a5 5 0 0 1 0 10h-4v4m0-10v2h4a1 1 0 0 0 0-2z' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css?v=6">
+</head>
+<body>
+  <a class="skip-link" href="#profile">Skip to the calculator</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" data-route aria-label="PR Score home"><span class="mark">PR</span><span>PR Score</span></a>
+      <span class="header-note">Independent Canadian PR score calculators</span>
+      <a class="source-shortcut" id="source-shortcut" href="#sources">How this is calculated</a>
+    </div>
+  </header>
+
+  <nav class="program-bar" id="program-bar" aria-label="Program" hidden>
+    <a href="/" data-route class="back-link"><span aria-hidden="true">←</span> All programs</a>
+    <label class="program-switch"><span>Program</span><select id="program-select"></select></label>
+  </nav>
+
+  <main>
+   <div id="landing-view" hidden></div>
+   <div id="ee-view" hidden>
+    <section class="intro" aria-labelledby="page-title">
+      <div class="intro-copy">
+        <div class="eyebrow">Canada · Express Entry</div>
+        <h1 id="page-title">A clearer look at your Express Entry profile.</h1>
+        <p>Enter what you know and see how each answer affects your CRS score. You can also check which federal programs may fit your situation.</p>
+        <a class="start-link" href="#profile">Start with your profile <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="intro-meta" aria-label="About this calculator">
+        <div><strong>Private by design</strong><span>Your answers stay in this browser.</span></div>
+        <div><strong>Based on official criteria</strong><span>Rules reviewed September 16, 2026.</span></div>
+      </div>
+    </section>
+
+    <div class="layout">
+      <div class="workspace">
+        <nav aria-label="Calculator sections">
+          <a href="#profile">About you</a>
+          <a href="#languages">Language tests</a>
+          <a href="#experience">Work &amp; points</a>
+          <a href="#pathways">Eligibility</a>
+        </nav>
+
+        <form id="profile-form">
+          <section id="profile">
+            <div class="section-title"><span class="number">Step 1</span><h2>Tell us about yourself</h2></div>
+            <p class="section-intro">Start with the basics. You can change any answer later.</p>
+            <div id="basic-fields" class="fields">
+              <label>Age<input type="number" value="29" min="0" max="100"></label>
+              <label>Spouse or partner<select><option>No accompanying spouse</option></select></label>
+              <label class="wide">Highest education<select><option>Bachelor’s degree / three-year program</option></select></label>
+            </div>
+          </section>
+
+          <section id="languages">
+            <div class="section-title"><span class="number">Step 2</span><h2>Add your language test results</h2></div>
+            <p class="section-intro">English and French are scored separately. We’ll automatically use the combination that gives you the most points.</p>
+            <div id="language-fields"></div>
+          </section>
+
+          <div id="remaining-fields"></div>
+        </form>
+
+        <section id="pathways">
+          <div class="section-title"><span class="number">Results</span><h2>Eligibility and recent draws</h2></div>
+          <p class="section-intro">Your CRS score and program eligibility are separate. Complete the eligibility questions above for a more useful screening.</p>
+          <div id="draw-info" class="draw-info" aria-live="polite"></div>
+          <div id="pathway-results"></div>
+        </section>
+
+        <footer id="sources">
+          <h3>Sources and important notes</h3>
+          <div id="source-links"></div>
+          <p>PR Score is an independent planning tool, not an IRCC decision. Eligibility screening is based on your answers; meeting program requirements does not guarantee an invitation. Your inputs stay on this page and are not saved. Occupation data: Statistics Canada, NOC 2021 Version 1.0, used under the Statistics Canada Open Licence. This tool is not endorsed by Statistics Canada.</p>
+        </footer>
+      </div>
+
+      <aside aria-label="Score summary">
+        <div class="score-card" id="score-card">
+          <div class="score-top"><span>Your estimated CRS score</span><span class="live-dot">Updates live</span></div>
+          <div class="score-value"><output id="total">230</output><span>out of 1,200</span></div>
+          <p id="language-choice">Add test results to calculate language points.</p>
+          <div class="score-track" id="score-track" aria-hidden="true"></div>
+          <div id="breakdown"><div class="break-row"><span>Core / human capital</span><b>230</b></div></div>
+          <div class="score-foot">This is an estimate for planning—not an immigration decision.</div>
+        </div>
+        <div class="note">
+          <span class="note-label">Good to know</span>
+          <h3>Your score is only one part of the picture.</h3>
+          <p>CRS ranks your profile. Program eligibility determines whether you can enter the Express Entry pool.</p>
+          <a href="#pathways">Review your eligibility</a>
+        </div>
+        <div class="rules-note"><strong>About job offers</strong> They no longer add CRS points, but they can still affect program eligibility.</div>
+      </aside>
+    </div>
+
+    <a class="mobile-score-bar" href="#score-card"><span>Estimated CRS<b id="mobile-total">230</b></span><em>View breakdown</em></a>
+   </div>
+   <div id="province-view" hidden></div>
+  </main>
+  <script type="module" src="/app.js?v=6"></script>
+  <script type="module" src="/provincial.js?v=6"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+name: Refresh provincial draws
+
+# Scrapes the official BC PNP, AAIP, MPNP and OINP invitation pages into dist/provincial-draws.js and opens
+# (or updates) a pull request when anything changed. Scheduled daily; can also be run by hand.
+on:
+  schedule:
+    - cron: '17 14 * * *' # 14:17 UTC ≈ 10:17 Toronto, after most provinces publish same-day results
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: refresh-draws
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BRANCH: automation/refresh-draws
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Fetch official draw pages
+        run: npm run draws
+
+      - name: Test and check
+        run: |
+          npm test
+          npm run check
+
+      - name: Open or update pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- dist/provincial-draws.js; then
+            echo "Draw data unchanged."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -C "$BRANCH"
+          git add dist/provincial-draws.js
+          git commit -m "Refresh provincial draw results ($(date -u +%F))"
+          git push --force origin "$BRANCH"
+          summary=$(git diff --stat HEAD~1 -- dist/provincial-draws.js | tail -1)
+          body=$(printf 'Automated refresh from the official BC PNP, AAIP, MPNP and OINP invitation pages.\n\n%s\n\nRun: %s/%s/actions/runs/%s' "$summary" "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID")
+          if gh pr view "$BRANCH" --json state -q .state 2>/dev/null | grep -q OPEN; then
+            gh pr edit "$BRANCH" --body "$body"
+          else
+            gh pr create --head "$BRANCH" --base main \
+              --title 'Refresh provincial draw results' --body "$body"
+          fi

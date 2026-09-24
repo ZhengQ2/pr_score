@@ -3,8 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "python3 -m http.server 4173 --bind 127.0.0.1 --directory dist",
+    "start": "node scripts/serve.js",
     "test": "node --test tests/*.test.js",
-    "check": "node --check dist/app.js && node --check dist/express-entry.js && node --check dist/systems.js && node --check dist/language-tests.js && node --check dist/occupations.js"
+    "check": "node --check dist/app.js && node --check dist/express-entry.js && node --check dist/systems.js && node --check dist/language-tests.js && node --check dist/occupations.js && node --check dist/draw-sources.js && node --check dist/express-entry-draws.js && node --check dist/oinp.js && node --check dist/bc-pnp.js && node --check dist/provincial-common.js && node --check dist/provincial.js && node --check dist/aaip.js && node --check dist/sinp.js && node --check dist/mpnp.js && node --check dist/pei-pnp.js && node --check dist/programs.js && node --check dist/province-forms.js && node --check dist/provincial-draws.js && node --check scripts/fetch-draws.mjs",
+    "draws": "node scripts/fetch-draws.mjs"
   }
 }
