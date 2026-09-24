@@ -2,9 +2,12 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: Least-privilege role that lets GitHub Actions on main publish PR Score files (no infrastructure changes)
 
 Parameters:
-  Repository:
+  SubjectPrefix:
     Type: String
-    Default: ZhengQ2/pr_score
+    Default: repo:ZhengQ2@77452278/pr_score@1373834414
+    Description: >-
+      OIDC subject prefix for the repository. This repo uses GitHub's immutable subject format
+      (owner@id/repo@id); check with `gh api repos/OWNER/REPO/actions/oidc/customization/sub`.
   SiteStackName:
     Type: String
     Default: pr-score-site
@@ -40,7 +43,7 @@ Resources:
             Condition:
               StringEquals:
                 token.actions.githubusercontent.com:aud: sts.amazonaws.com
-                token.actions.githubusercontent.com:sub: !Sub 'repo:${Repository}:ref:refs/heads/main'
+                token.actions.githubusercontent.com:sub: !Sub '${SubjectPrefix}:ref:refs/heads/main'
       Policies:
         - PolicyName: publish-site-files
           PolicyDocument:
