@@ -8,6 +8,7 @@ import * as oinp from './oinp.js';
 import * as bc from './bc-pnp.js';
 import {FORMS} from './province-forms.js';
 import {programs,unscored,bySlug,bySystem} from './programs.js';
+import {showFinder} from './finder.js';
 
 const $=id=>document.getElementById(id);
 const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -142,10 +143,11 @@ view.addEventListener('click',e=>{
 // Router: each calculator has a clean path (/ee, /oinp, …) and "/" is the program picker. CloudFront and the
 // local dev server both serve index.html for extensionless paths; legacy ?system=<id> links are redirected.
 const TITLE='PR Score';
-const landing=$('landing-view'),eeView=$('ee-view'),bar=$('program-bar');
+const landing=$('landing-view'),eeView=$('ee-view'),bar=$('program-bar'),finderView=$('finder-view');
 function renderLanding(){
  const card=pr=>`<a class="program-card" href="/${pr.slug}" data-route><span class="program-region">${pr.region}</span><strong>${pr.name}</strong><span class="program-detail">${pr.detail}</span><p>${pr.blurb}</p><span class="program-max">Scored out of ${pr.max.toLocaleString('en-CA')}</span></a>`;
  landing.innerHTML=`<section class="intro landing-intro" aria-labelledby="landing-title"><div class="intro-copy"><div class="eyebrow">Canadian permanent residence</div><h1 id="landing-title">Which program are you scoring?</h1><p>Pick a federal or provincial program to estimate your score and screen its requirements. Each calculator follows that program’s official points grid.</p></div><div class="intro-meta" aria-label="About these calculators"><div><strong>Private by design</strong><span>Your answers stay in this browser.</span></div><div><strong>Based on official criteria</strong><span>Rules reviewed September 2026.</span></div></div></section>
+ <a class="finder-cta" href="/finder" data-route><span><strong>Not sure which program fits?</strong> Answer a short questionnaire and get a ranked shortlist of the programs worth scoring.</span><em>Find my programs →</em></a>
  <h2 class="landing-heading">Federal</h2><div class="program-grid">${programs.filter(pr=>pr.region==='Federal').map(card).join('')}</div>
  <h2 class="landing-heading">Provincial nominee programs</h2><div class="program-grid">${programs.filter(pr=>pr.region!=='Federal').map(card).join('')}</div>
  <h2 class="landing-heading">No published points grid</h2><p class="landing-note">These programs select candidates by labour market priorities rather than a public score, so there’s nothing to calculate. Check their official pages for current criteria.</p><ul class="unscored-list">${unscored.map(u=>`<li><a href="${u.url}" target="_blank" rel="noopener"><strong>${u.region} · ${u.name} ↗</strong></a><span>${u.note}</span></li>`).join('')}</ul>
@@ -157,9 +159,11 @@ function routeFromLocation(){
  return location.pathname.replace(/^\/+|\/+$/g,'').toLowerCase();
 }
 function show(slug){
- const pr=bySlug(slug),ee=pr?.system==='canada-express-entry';
+ const pr=bySlug(slug),ee=pr?.system==='canada-express-entry',finder=slug==='finder';
+ finderView.hidden=!finder;
+ if(finder){landing.hidden=eeView.hidden=view.hidden=bar.hidden=true;$('source-shortcut').hidden=true;document.querySelector('.skip-link').setAttribute('href','#finder-view');document.title=`${TITLE} · Program finder`;current=null;showFinder();return;}
  landing.hidden=Boolean(pr);eeView.hidden=!ee;view.hidden=!pr||ee;bar.hidden=!pr;
- if(!pr){if(!landing.innerHTML)renderLanding();document.title=`${TITLE} · Canadian PR score calculators`;$('source-shortcut').hidden=true;current=null;return;}
+ if(!pr){if(!landing.innerHTML)renderLanding();document.querySelector('.skip-link').setAttribute('href','#landing-view');document.title=`${TITLE} · Canadian PR score calculators`;$('source-shortcut').hidden=true;current=null;return;}
  $('source-shortcut').hidden=false;
  $('program-select').value=pr.slug;
  $('source-shortcut').setAttribute('href',ee?'#sources':'#p-sources');
