@@ -21,7 +21,7 @@ function questionHtml(){
 function matchHtml(m){
  const mark=ok=>ok===null?'<span class="mark-q" aria-label="Needs confirmation">?</span>':ok?'<span class="mark-ok" aria-label="Met">✓</span>':'<span class="mark-no" aria-label="Not met">×</span>';
  const link=m.external?`<a href="${m.href}" target="_blank" rel="noopener">Official page ↗</a>`:`<a href="${m.href}" data-route>Open the ${esc(m.name)} calculator →</a>`;
- return `<article class="match match-${m.fit}"><div class="match-head"><div><span class="program-region">${esc(m.region)}${m.preferred?' · your preferred province':''}</span><h3>${esc(m.name)}</h3><span class="program-detail">Best path: ${esc(m.path)}</span></div><span class="status ${m.fit==='strong'?'pass':m.fit==='unlikely'?'fail':''}">${FIT[m.fit]}</span></div>
+ return `<article class="match match-${m.fit}"><div class="match-head"><div><span class="program-region">${esc(m.region)}${m.preferred?' · a province you’d consider':''}</span><h3>${esc(m.name)}</h3><span class="program-detail">Best path: ${esc(m.path)}</span></div><span class="status ${m.fit==='strong'?'pass':m.fit==='unlikely'?'fail':''}">${FIT[m.fit]}</span></div>
   ${m.estimate?`<p class="match-estimate"><b>${m.estimate.value.toLocaleString('en-CA')}</b> ${esc(m.estimate.label)} out of ${m.estimate.max.toLocaleString('en-CA')}</p>`:''}
   <ul class="match-checks">${m.checks.map(([label,ok])=>`<li>${mark(ok)}<span>${label}${ok===null?' — please confirm':''}</span></li>`).join('')}</ul>
   ${m.notes.map(n=>`<p class="match-note">${n}</p>`).join('')}${link}</article>`;
@@ -52,7 +52,9 @@ function readStep(){
 }
 function go(next){step=next;render();view.scrollIntoView({block:'start'});}
 
-view.addEventListener('change',e=>{if(!e.target.name?.startsWith('finder-'))return;readStep();const btn=view.querySelector('.finder-next');if(btn)btn.disabled=!isAnswered(questions[step],answers);});
+view.addEventListener('change',e=>{if(!e.target.name?.startsWith('finder-'))return;
+ const q=questions[step];if(q.exclusive!==undefined&&e.target.checked){const solo=e.target.value===String(q.exclusive);view.querySelectorAll(`input[name="finder-${q.id}"]`).forEach(i=>{if(i!==e.target&&(solo||i.value===String(q.exclusive)))i.checked=false;});}
+ readStep();const btn=view.querySelector('.finder-next');if(btn)btn.disabled=!isAnswered(questions[step],answers);});
 view.addEventListener('submit',e=>{e.preventDefault();readStep();if(!isAnswered(questions[step],answers))return;go(reviewing?questions.length:step+1);});
 view.addEventListener('click',e=>{
  if(e.target.id==='finder-back'){readStep();go(step-1);return;}

@@ -4,7 +4,7 @@ import * as ee from '../dist/express-entry.js';
 import * as sinp from '../dist/sinp.js';
 import {programs} from '../dist/programs.js';
 
-const base={location:'outside',destination:'any',age:'30-34',spouse:'no',education:'bachelor',english:7,french:0,teer:'01',trade:'no',canadaYears:0,foreignYears:3,jobOffer:'none',family:[],history:[],funds:'yes'};
+const base={location:'outside',destination:[],age:'30-34',spouse:'no',education:'bachelor',english:7,french:0,teer:'01',trade:'no',canadaYears:0,foreignYears:3,jobOffer:'none',family:[],history:[],funds:'yes'};
 const answers=over=>({...defaultAnswers(),...base,...over});
 const find=(r,id)=>r.results.find(m=>m.id===id);
 const RANK={strong:3,possible:2,unlikely:1};
@@ -53,15 +53,29 @@ test('FSW needs 67 selection points and funds; unknown funds leaves it worth exp
 });
 
 test('Wanting to live in Quebec rules out Express Entry and other provinces, and surfaces Quebec',()=>{
- const r=recommend(answers({destination:'qc'}));
+ const r=recommend(answers({destination:['qc']}));
  assert.equal(find(r,'ee').fit,'unlikely');
  assert.ok(find(r,'ee').checks.some(([l,ok])=>l==='Plan to live outside Quebec'&&ok===false));
  const qc=find(r,'qc');assert.ok(qc&&qc.external&&qc.preferred);assert.equal(qc.fit,'possible');
  assert.equal(find(r,'oinp').fit,'unlikely');
 });
 
+test('Several destinations can be chosen; none or “anywhere” means flexible',()=>{
+ const q=questions.find(q=>q.id==='destination');
+ assert.ok(q.multi);assert.equal(optionLabel(q,[]),'Anywhere: I’m flexible');assert.equal(optionLabel(q,['on','qc']),'Ontario, Quebec');
+ const fits=r=>r.results.map(m=>`${m.id}:${m.fit}:${m.preferred}`);
+ assert.deepEqual(fits(recommend(answers({destination:['any']}))),fits(recommend(answers({destination:[]}))));
+ const both=recommend(answers({english:9,destination:['qc','on']}));
+ assert.equal(find(both,'ee').fit,'strong');// Ontario keeps Express Entry open
+ assert.ok(find(both,'oinp').preferred&&find(both,'qc').preferred);
+ assert.ok(find(both,'oinp').checks.some(([l,ok])=>l==='Plan to live in Ontario'&&ok===true));
+ assert.ok(find(both,'aaip').checks.some(([l,ok])=>l==='Plan to live in Alberta'&&ok===false));
+ const west=recommend(answers({english:9,destination:['ab','bc']}));
+ assert.equal(find(west,'aaip').fit,'possible');assert.equal(find(west,'pei-pnp').fit,'unlikely');
+});
+
 test('A provincial job offer makes that province a strong match',()=>{
- const on=recommend(answers({location:'canada',jobOffer:'on',destination:'on',teer:'23',english:6,education:'two-year',canadaYears:1,foreignYears:0}));
+ const on=recommend(answers({location:'canada',jobOffer:'on',destination:['on'],teer:'23',english:6,education:'two-year',canadaYears:1,foreignYears:0}));
  assert.equal(find(on,'oinp').fit,'strong');assert.ok(find(on,'oinp').preferred);
  assert.equal(find(on,'bc-pnp').fit,'unlikely');
  const bc=recommend(answers({jobOffer:'bc',teer:'23',english:4,foreignYears:2}));
