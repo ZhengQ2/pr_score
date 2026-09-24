@@ -4,7 +4,7 @@
 
 Published at https://pr.zhengqiu.net (private S3 bucket behind CloudFront, defined in `infra/site.yaml`). Deploy only when the owner asks: `scripts/deploy.sh` runs the tests, creates or updates the `pr-score-site` CloudFormation stack in us-east-1, syncs `dist/` and invalidates CloudFront. The `.openai/hosting.json` manifest records an older Sites private deployment and is not used.
 
-Dependency-free, responsive calculators for Express Entry (CRS) and the provincial nominee programs of Ontario, British Columbia, Alberta, Saskatchewan, Manitoba and Prince Edward Island. `/` is a program picker and each calculator has a clean path: `/ee`, `/oinp`, `/bc-pnp`, `/aaip`, `/sinp`, `/mpnp`, `/pei-pnp`. Legacy `?system=<id>` links redirect. Extensionless paths are served `index.html`: by a CloudFront Function in production and by `scripts/serve.js` locally (`npm start`, http://127.0.0.1:4173). Asset URLs are absolute (`/app.js`) so they resolve from any route. Run `npm test` for rule tests and `npm run check` for JavaScript syntax checks.
+Dependency-free, responsive calculators for Express Entry (CRS) and the provincial nominee programs of Ontario, British Columbia, Alberta, Saskatchewan, Manitoba and Prince Edward Island. `/` is a program picker and each calculator has a clean path: `/ee`, `/oinp`, `/bc-pnp`, `/aaip`, `/sinp`, `/mpnp`, `/pei-pnp`. `/finder` is a questionnaire that shortlists the programs that fit the user’s situation. Legacy `?system=<id>` links redirect. Extensionless paths are served `index.html`: by a CloudFront Function in production and by `scripts/serve.js` locally (`npm start`, http://127.0.0.1:4173). Asset URLs are absolute (`/app.js`) so they resolve from any route. Run `npm test` for rule tests and `npm run check` for JavaScript syntax checks.
 
 ## Structure
 
@@ -15,6 +15,7 @@ Dependency-free, responsive calculators for Express Entry (CRS) and the provinci
 - `dist/province-forms.js`: declarative form definitions and results context for each provincial calculator.
 - `dist/provincial.js`: router, landing page, and the schema-driven form and results renderer for provincial adapters.
 - `dist/app.js`: accessible live form and result rendering. No backend or stored applicant data.
+- `dist/program-finder.js`: pure questionnaire definition and `recommend(answers)` ranking for the program finder. `dist/finder.js` renders it one question at a time at `/finder`.
 - `tests/scoring.test.js`, `tests/provincial.test.js`, `tests/provinces.test.js`: reference scenarios, caps, boundary and eligibility checks.
 
 ## Rule snapshot and interpretation
@@ -26,6 +27,12 @@ CRS and eligibility are separate. Eligibility uses explicit confirmations for qu
 Tests are selected as already valid (under two years), rather than collecting test dates. ECA validity is self-confirmed (under five years). Users choose IELTS General Training, CELPIP-General, PTE Core, TEF Canada or TCF Canada and enter four independent raw scores. Numeric inputs and sliders stay synchronized. Complete, valid results convert automatically to CLB/NCLC; incomplete or invalid languages are excluded with an explanation. Switching tests clears scores to prevent reinterpreting them on a different scale. CLB/NCLC 10 and above share one scoring band.
 
 The browser exposes an optional read-only WebMCP tool, `read_express_entry_estimate`, using the same visible profile and results.
+
+## Program finder
+
+The finder asks 15 questions: location, destination, age, spouse, education, English and French (lowest CLB/NCLC), TEER, skilled trade, Canadian and foreign skilled experience, job offer province, provincial relatives, provincial work or study, and settlement funds. Each program is screened on a few headline requirements (✓ met, × not met, ? needs confirmation). A program's fit is that of its best path: *Strong match* when every check is met, *Worth exploring* when some need confirmation, and *Not a fit right now* when any check fails. Results are ranked by fit, then preferred province, then the share of checks met.
+
+Estimates reuse the real modules. CRS and the FSW 67-point grid come from `express-entry.js` and SINP points come from `sinp.js`. These estimates assume no Canadian education, sibling or nomination; a spouse earns no points; ECAs are valid; and experience is counted in whole years, with no SINP points for work 6–10 years ago. Provincial Express Entry paths (Alberta, PEI) inherit the federal result. Choosing Quebec as the destination fails Express Entry's outside-Quebec check and every other province's intent-to-reside check. New Brunswick, Nova Scotia, Newfoundland and Labrador, and Quebec appear only when the user has a job offer, a destination preference, a relative, or past work or study there, and they link to official pages. Answers stay in memory only.
 
 ## Occupation search
 
