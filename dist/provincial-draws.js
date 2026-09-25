@@ -2,9 +2,16 @@
 // run `npm run draws` (or wait for the scheduled GitHub Action) to refresh.
 export const provincialDraws={
  "bc-pnp": {
-  "updated": "2026-09-22",
+  "updated": "2026-09-24",
   "url": "https://www.welcomebc.ca/immigrate-to-b-c/about-the-bc-provincial-nominee-program/invitations-to-apply",
   "rounds": [
+   {
+    "date": "2026-09-24",
+    "label": "Innovate: High Economic Impact",
+    "detail": "",
+    "score": 131,
+    "size": "288"
+   },
    {
     "date": "2026-09-17",
     "label": "Temporary Rural/Remote Health Support Initiative",
@@ -48,13 +55,6 @@ export const provincialDraws={
     "size": "104"
    },
    {
-    "date": "2026-08-20",
-    "label": "Innovate: High Economic Impact",
-    "detail": "",
-    "score": 132,
-    "size": "265"
-   },
-   {
     "date": "2026-08-06",
     "label": "Care: Education",
     "detail": "All priority education occupations",
@@ -64,9 +64,51 @@ export const provincialDraws={
   ]
  },
  "aaip": {
-  "updated": "2026-09-09",
+  "updated": "2026-09-23",
   "url": "https://www.alberta.ca/aaip-processing-information",
   "rounds": [
+   {
+    "date": "2026-09-23",
+    "label": "Alberta Opportunity Stream",
+    "detail": "",
+    "score": 58,
+    "size": "113"
+   },
+   {
+    "date": "2026-09-22",
+    "label": "Alberta Express Entry Stream – Accelerated Tech Pathway",
+    "detail": "",
+    "score": 59,
+    "size": "100"
+   },
+   {
+    "date": "2026-09-21",
+    "label": "Alberta Express Entry Stream – Law Enforcement Pathway",
+    "detail": "",
+    "score": 49,
+    "size": "Less than 10"
+   },
+   {
+    "date": "2026-09-18",
+    "label": "Alberta Express Entry Stream – Priority Sectors (Health Care)",
+    "detail": "",
+    "score": 62,
+    "size": "100"
+   },
+   {
+    "date": "2026-09-15",
+    "label": "Alberta Express Entry Stream – Priority Sectors (Agriculture)",
+    "detail": "",
+    "score": 60,
+    "size": "18"
+   },
+   {
+    "date": "2026-09-10",
+    "label": "Alberta Express Entry Stream – Priority Sectors (Manufacturing)",
+    "detail": "",
+    "score": 60,
+    "size": "48"
+   },
    {
     "date": "2026-09-09",
     "label": "Dedicated Health Care Pathway – Express Entry",
@@ -75,60 +117,25 @@ export const provincialDraws={
     "size": "51"
    },
    {
-    "date": "2026-09-03",
-    "label": "Alberta Express Entry Stream – Accelerated Tech Pathway",
-    "detail": "",
-    "score": 60,
-    "size": "96"
-   },
-   {
-    "date": "2026-09-01",
-    "label": "Alberta Opportunity Stream",
-    "detail": "",
-    "score": 56,
-    "size": "575"
-   },
-   {
     "date": "2026-08-19",
     "label": "Dedicated Health Care Pathway – non-Express Entry",
     "detail": "",
     "score": 60,
     "size": "24"
-   },
-   {
-    "date": "2026-08-11",
-    "label": "Rural Renewal Stream",
-    "detail": "",
-    "score": 51,
-    "size": "127"
-   },
-   {
-    "date": "2026-08-07",
-    "label": "Alberta Express Entry Stream – Priority Sectors (Agriculture)",
-    "detail": "",
-    "score": 55,
-    "size": "38"
-   },
-   {
-    "date": "2026-08-04",
-    "label": "Alberta Express Entry Stream – Priority Sectors (Health Care)",
-    "detail": "",
-    "score": 66,
-    "size": "50"
-   },
-   {
-    "date": "2026-07-21",
-    "label": "Alberta Express Entry Stream – Priority Sectors (Construction)",
-    "detail": "",
-    "score": 65,
-    "size": "53"
    }
   ]
  },
  "mpnp": {
-  "updated": "2026-09-10",
+  "updated": "2026-09-24",
   "url": "https://immigratemanitoba.com/draws/",
   "rounds": [
+   {
+    "date": "2026-09-24",
+    "label": "Occupation-specific selections",
+    "detail": "Draw #280: Top scoring profiles declaring current employment in Manitoba in Broad Occupational Category 2 – Natural and applied sciences and related occupations, were considered.",
+    "score": 760,
+    "size": "417"
+   },
    {
     "date": "2026-09-10",
     "label": "Completed post-secondary study in Manitoba",
