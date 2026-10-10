@@ -2,57 +2,57 @@
 // run `npm run draws` (or wait for the scheduled GitHub Action) to refresh.
 export const provincialDraws={
  "bc-pnp": {
-  "updated": "2026-09-22",
+  "updated": "2026-10-08",
   "url": "https://www.welcomebc.ca/immigrate-to-b-c/about-the-bc-provincial-nominee-program/invitations-to-apply",
   "rounds": [
+   {
+    "date": "2026-10-08",
+    "label": "Care: Childcare",
+    "detail": "Early childhood educators only",
+    "score": 99,
+    "size": "86"
+   },
+   {
+    "date": "2026-10-08",
+    "label": "Care: Health",
+    "detail": "All priority health care occupations",
+    "score": 76,
+    "size": "82"
+   },
+   {
+    "date": "2026-10-08",
+    "label": "Care: Veterinary Care",
+    "detail": "All priority veterinary care occupations",
+    "score": 86,
+    "size": "<5"
+   },
+   {
+    "date": "2026-10-08",
+    "label": "Care: Veterinary Care",
+    "detail": "Animal health technologists and veterinary technicians (NOC 32104) with valid professional designation",
+    "score": 86,
+    "size": "<5"
+   },
+   {
+    "date": "2026-10-08",
+    "label": "Build: Construction Trades",
+    "detail": "All priority construction occupations",
+    "score": 94,
+    "size": "115"
+   },
+   {
+    "date": "2026-09-24",
+    "label": "Innovate: High Economic Impact",
+    "detail": "",
+    "score": 131,
+    "size": "288"
+   },
    {
     "date": "2026-09-17",
     "label": "Temporary Rural/Remote Health Support Initiative",
     "detail": "",
     "score": 60,
     "size": "33"
-   },
-   {
-    "date": "2026-09-10",
-    "label": "Care: Childcare",
-    "detail": "Early childhood educators only",
-    "score": 99,
-    "size": "182"
-   },
-   {
-    "date": "2026-09-10",
-    "label": "Care: Health",
-    "detail": "All priority health care occupations",
-    "score": 76,
-    "size": "143"
-   },
-   {
-    "date": "2026-09-10",
-    "label": "Care: Veterinary Care",
-    "detail": "All priority veterinary care occupations",
-    "score": 90,
-    "size": "<5"
-   },
-   {
-    "date": "2026-09-10",
-    "label": "Care: Veterinary Care",
-    "detail": "Animal health technologists and veterinary technicians (NOC 32104) with valid professional designation",
-    "score": 90,
-    "size": "<5"
-   },
-   {
-    "date": "2026-09-10",
-    "label": "Build: Construction Trades",
-    "detail": "All priority construction occupations",
-    "score": 94,
-    "size": "104"
-   },
-   {
-    "date": "2026-08-20",
-    "label": "Innovate: High Economic Impact",
-    "detail": "",
-    "score": 132,
-    "size": "265"
    },
    {
     "date": "2026-08-06",
@@ -64,71 +64,78 @@ export const provincialDraws={
   ]
  },
  "aaip": {
-  "updated": "2026-09-09",
+  "updated": "2026-10-07",
   "url": "https://www.alberta.ca/aaip-processing-information",
   "rounds": [
    {
-    "date": "2026-09-09",
-    "label": "Dedicated Health Care Pathway – Express Entry",
-    "detail": "",
-    "score": 60,
-    "size": "51"
-   },
-   {
-    "date": "2026-09-03",
-    "label": "Alberta Express Entry Stream – Accelerated Tech Pathway",
-    "detail": "",
-    "score": 60,
-    "size": "96"
-   },
-   {
-    "date": "2026-09-01",
-    "label": "Alberta Opportunity Stream",
+    "date": "2026-10-07",
+    "label": "Alberta Express Entry Stream – Priority Sectors (Aviation)",
     "detail": "",
     "score": 56,
-    "size": "575"
+    "size": "22"
    },
    {
-    "date": "2026-08-19",
-    "label": "Dedicated Health Care Pathway – non-Express Entry",
+    "date": "2026-10-02",
+    "label": "Alberta Opportunity Stream",
     "detail": "",
-    "score": 60,
-    "size": "24"
+    "score": 54,
+    "size": "123"
    },
    {
-    "date": "2026-08-11",
+    "date": "2026-09-29",
+    "label": "Alberta Express Entry Stream – Priority Sectors (General)",
+    "detail": "",
+    "score": 64,
+    "size": "200"
+   },
+   {
+    "date": "2026-09-24",
     "label": "Rural Renewal Stream",
     "detail": "",
     "score": 51,
-    "size": "127"
+    "size": "131"
    },
    {
-    "date": "2026-08-07",
-    "label": "Alberta Express Entry Stream – Priority Sectors (Agriculture)",
+    "date": "2026-09-22",
+    "label": "Alberta Express Entry Stream – Accelerated Tech Pathway",
     "detail": "",
-    "score": 55,
-    "size": "38"
+    "score": 59,
+    "size": "100"
    },
    {
-    "date": "2026-08-04",
+    "date": "2026-09-21",
+    "label": "Alberta Express Entry Stream – Law Enforcement Pathway",
+    "detail": "",
+    "score": 49,
+    "size": "Less than 10"
+   },
+   {
+    "date": "2026-09-18",
     "label": "Alberta Express Entry Stream – Priority Sectors (Health Care)",
     "detail": "",
-    "score": 66,
-    "size": "50"
+    "score": 62,
+    "size": "100"
    },
    {
-    "date": "2026-07-21",
-    "label": "Alberta Express Entry Stream – Priority Sectors (Construction)",
+    "date": "2026-09-15",
+    "label": "Alberta Express Entry Stream – Priority Sectors (Agriculture)",
     "detail": "",
-    "score": 65,
-    "size": "53"
+    "score": 60,
+    "size": "18"
    }
   ]
  },
  "mpnp": {
-  "updated": "2026-09-10",
+  "updated": "2026-09-24",
   "url": "https://immigratemanitoba.com/draws/",
   "rounds": [
+   {
+    "date": "2026-09-24",
+    "label": "Occupation-specific selections",
+    "detail": "Draw #280: Top scoring profiles declaring current employment in Manitoba in Broad Occupational Category 2 – Natural and applied sciences and related occupations, were considered.",
+    "score": 760,
+    "size": "417"
+   },
    {
     "date": "2026-09-10",
     "label": "Completed post-secondary study in Manitoba",
